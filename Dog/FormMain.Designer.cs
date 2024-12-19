@@ -18,8 +18,6 @@ namespace Dog
         private ComboBox SexComboBox;
         private CheckBox VaccinatedCheckBox;
         private DateTimePicker BirthDatePicker;
-        private Button SaveButton;
-        private Button LoadButton;
         private ErrorProvider TextBoxErrorProvider;
         
         private System.Windows.Forms.Label NameLabel;
@@ -35,7 +33,6 @@ namespace Dog
         
         private System.Windows.Forms.GroupBox DogDetailsGroupBox;
         private System.Windows.Forms.GroupBox BirthDetailsGroupBox;
-        private System.Windows.Forms.GroupBox ActionsGroupBox;
 
 
 private void InitializeComponent()
@@ -63,9 +60,6 @@ private void InitializeComponent()
             this.VaccinatedCheckBox = new System.Windows.Forms.CheckBox();
             this.BirthDateLabel = new System.Windows.Forms.Label();
             this.BirthDatePicker = new System.Windows.Forms.DateTimePicker();
-            this.ActionsGroupBox = new System.Windows.Forms.GroupBox();
-            this.SaveButton = new System.Windows.Forms.Button();
-            this.LoadButton = new System.Windows.Forms.Button();
             this.TextBoxErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,7 +75,6 @@ private void InitializeComponent()
             ((System.ComponentModel.ISupportInitialize)(this.WeightNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.HeightNumericUpDown)).BeginInit();
             this.BirthDetailsGroupBox.SuspendLayout();
-            this.ActionsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TextBoxErrorProvider)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -98,7 +91,7 @@ private void InitializeComponent()
             this.DogDetailsGroupBox.Controls.Add(this.WeightNumericUpDown);
             this.DogDetailsGroupBox.Controls.Add(this.HeightLabel);
             this.DogDetailsGroupBox.Controls.Add(this.HeightNumericUpDown);
-            this.DogDetailsGroupBox.Location = new System.Drawing.Point(20, 44);
+            this.DogDetailsGroupBox.Location = new System.Drawing.Point(12, 27);
             this.DogDetailsGroupBox.Name = "DogDetailsGroupBox";
             this.DogDetailsGroupBox.Size = new System.Drawing.Size(300, 350);
             this.DogDetailsGroupBox.TabIndex = 0;
@@ -193,7 +186,7 @@ private void InitializeComponent()
             this.BirthDetailsGroupBox.Controls.Add(this.VaccinatedCheckBox);
             this.BirthDetailsGroupBox.Controls.Add(this.BirthDateLabel);
             this.BirthDetailsGroupBox.Controls.Add(this.BirthDatePicker);
-            this.BirthDetailsGroupBox.Location = new System.Drawing.Point(350, 44);
+            this.BirthDetailsGroupBox.Location = new System.Drawing.Point(342, 27);
             this.BirthDetailsGroupBox.Name = "BirthDetailsGroupBox";
             this.BirthDetailsGroupBox.Size = new System.Drawing.Size(300, 350);
             this.BirthDetailsGroupBox.TabIndex = 1;
@@ -296,35 +289,6 @@ private void InitializeComponent()
             this.BirthDatePicker.Size = new System.Drawing.Size(180, 20);
             this.BirthDatePicker.TabIndex = 9;
             // 
-            // ActionsGroupBox
-            // 
-            this.ActionsGroupBox.Controls.Add(this.SaveButton);
-            this.ActionsGroupBox.Controls.Add(this.LoadButton);
-            this.ActionsGroupBox.Location = new System.Drawing.Point(20, 400);
-            this.ActionsGroupBox.Name = "ActionsGroupBox";
-            this.ActionsGroupBox.Size = new System.Drawing.Size(630, 80);
-            this.ActionsGroupBox.TabIndex = 2;
-            this.ActionsGroupBox.TabStop = false;
-            this.ActionsGroupBox.Text = "Actions";
-            // 
-            // SaveButton
-            // 
-            this.SaveButton.Location = new System.Drawing.Point(20, 30);
-            this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(100, 30);
-            this.SaveButton.TabIndex = 0;
-            this.SaveButton.Text = "Save";
-            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
-            // 
-            // LoadButton
-            // 
-            this.LoadButton.Location = new System.Drawing.Point(150, 30);
-            this.LoadButton.Name = "LoadButton";
-            this.LoadButton.Size = new System.Drawing.Size(100, 30);
-            this.LoadButton.TabIndex = 1;
-            this.LoadButton.Text = "Load";
-            this.LoadButton.Click += new System.EventHandler(this.LoadButton_Click);
-            // 
             // TextBoxErrorProvider
             // 
             this.TextBoxErrorProvider.ContainerControl = this;
@@ -336,7 +300,7 @@ private void InitializeComponent()
             this.windowToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(700, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(861, 24);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -354,27 +318,30 @@ private void InitializeComponent()
             // newToolStripMenuItem
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveAsToolStripMenuItem.Text = "Save As";
+            this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // windowToolStripMenuItem
             // 
@@ -389,42 +356,41 @@ private void InitializeComponent()
             // horizontalToolStripMenuItem
             // 
             this.horizontalToolStripMenuItem.Name = "horizontalToolStripMenuItem";
-            this.horizontalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.horizontalToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.horizontalToolStripMenuItem.Text = "Horizontal";
             this.horizontalToolStripMenuItem.Click += new System.EventHandler(this.horizontalToolStripMenuItem_Click);
             // 
             // verticalToolStripMenuItem
             // 
             this.verticalToolStripMenuItem.Name = "verticalToolStripMenuItem";
-            this.verticalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.verticalToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.verticalToolStripMenuItem.Text = "Vertical";
             this.verticalToolStripMenuItem.Click += new System.EventHandler(this.verticalToolStripMenuItem_Click);
             // 
             // cascadeToolStripMenuItem
             // 
             this.cascadeToolStripMenuItem.Name = "cascadeToolStripMenuItem";
-            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cascadeToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.cascadeToolStripMenuItem.Text = "Cascade";
             this.cascadeToolStripMenuItem.Click += new System.EventHandler(this.cascadeToolStripMenuItem_Click);
             // 
             // FormMain
             // 
-            this.ClientSize = new System.Drawing.Size(700, 500);
+            this.ClientSize = new System.Drawing.Size(861, 551);
             this.Controls.Add(this.DogDetailsGroupBox);
             this.Controls.Add(this.BirthDetailsGroupBox);
-            this.Controls.Add(this.ActionsGroupBox);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.MinimizeBox = false;
             this.Name = "FormMain";
             this.Text = "Dog Registration";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
+            this.MouseHover += new System.EventHandler(this.FormMain_MouseHover);
             this.DogDetailsGroupBox.ResumeLayout(false);
             this.DogDetailsGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WeightNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.HeightNumericUpDown)).EndInit();
             this.BirthDetailsGroupBox.ResumeLayout(false);
-            this.ActionsGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TextBoxErrorProvider)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

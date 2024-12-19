@@ -13,6 +13,7 @@ namespace Dog
     public partial class FormMain : Form
     {
         private Models.Dog dog = new Models.Dog();
+        private string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\data.json";
 
         public FormMain(bool hide = true)
         {
@@ -181,6 +182,7 @@ namespace Dog
             newForm.newToolStripMenuItem.Visible = false;
             newForm.windowToolStripMenuItem.Visible = false;
             newForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+            newForm.Size = new System.Drawing.Size { Width=662, Height=425 };
             newForm.Show();
         }
 
@@ -197,6 +199,113 @@ namespace Dog
         private void cascadeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LayoutMdi(MdiLayout.Cascade);
+        }
+
+        private void FormMain_MouseHover(object sender, EventArgs e)
+        {
+            this.Focus();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Choose File",
+                Filter = "JSON File (*.json)|*.json",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+
+                foreach (FormMain f in this.MdiParent.MdiChildren)
+                {
+                    if (f.filePath == filePath)
+                    {
+                        MessageBox.Show("This file is already in use", "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                if (!File.Exists(filePath))
+                {
+                    MessageBox.Show("File does not exist", "Warning",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string jsonContent = File.ReadAllText(filePath);
+                var entity = JsonConvert.DeserializeObject<Models.Dog>(jsonContent);
+                if (entity == null)
+                {
+                    MessageBox.Show("File is empty", "Warning",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                #region Reinit the form with empty fields
+                // TODO: Implement logic
+                #endregion
+                #region Push entity fields to form fields
+                // TODO: Implement logic 
+                #endregion
+
+            }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveToFile();
+            MessageBox.Show("File saved", "Info",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Information);
+        }
+
+        private void saveToFile()
+        {
+            Models.Dog entity = new Models.Dog();
+            // TODO: Get form info into the dog entity
+            // TODO: Serialize it into JSON (JsonConvert.SerializeObject)
+            // File.WriteAllText(this.filePath, json);
+        }
+
+        private void saveAs()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Choose File",
+                Filter = "JSON File (*.json)|*.json",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                CheckFileExists = false,
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+
+                foreach (FormMain f in this.MdiParent.MdiChildren)
+                {
+                    if (f.filePath == filePath && f != this)
+                    {
+                        MessageBox.Show("This file is already in use", "Error",
+                                                   MessageBoxButtons.OK,
+                                                   MessageBoxIcon.Error);
+                        return;
+                    }
+                    // TODO: Serialize it into JSON (JsonConvert.SerializeObject)
+                    // File.WriteAllText(this.filePath, josn);
+                }
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveAs();
+            MessageBox.Show("File Saved", "Info", 
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
