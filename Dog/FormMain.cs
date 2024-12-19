@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using DogNamespace;
+using System.Net;
 
 namespace Dog
 {
@@ -13,9 +14,25 @@ namespace Dog
     {
         private Models.Dog dog = new Models.Dog();
 
-        public FormMain()
+        public FormMain(bool hide = true)
         {
             InitializeComponent();
+            this.AutoScroll = true;
+            if (hide)
+            {
+                foreach (Control i in this.Controls)
+                {
+                    i.Visible = false;
+                }
+                menuStrip1.Visible = true;
+                this.IsMdiContainer = true;
+                this.saveToolStripMenuItem.Enabled = false;
+                this.saveToolStripMenuItem.Visible = false;
+                this.saveAsToolStripMenuItem.Enabled = false;
+                this.saveAsToolStripMenuItem.Visible = false;
+                this.openToolStripMenuItem.Enabled = false;
+                this.openToolStripMenuItem.Visible = false;
+            }
         }
 
         private void NameTextBox_Validating(object sender, CancelEventArgs e)
@@ -140,12 +157,46 @@ namespace Dog
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (e.CloseReason == CloseReason.MdiFormClosing)
+                return;
+
             var result = MessageBox.Show("Are you sure you want to exit?", "Exit", MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
             if (result != DialogResult.Yes)
             {
                 e.Cancel = true;
             }
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var newForm = new FormMain(false);
+            newForm.TopLevel = true;
+            newForm.MdiParent = this;
+            newForm.MaximizeBox = false;
+            newForm.MinimizeBox = false;
+            newForm.menuStrip1.AllowMerge = false;
+            newForm.newToolStripMenuItem.Enabled = false;
+            newForm.windowToolStripMenuItem.Enabled = false;
+            newForm.newToolStripMenuItem.Visible = false;
+            newForm.windowToolStripMenuItem.Visible = false;
+            newForm.FormBorderStyle = FormBorderStyle.FixedDialog;
+            newForm.Show();
+        }
+
+        private void horizontalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.TileHorizontal);
+        }
+
+        private void verticalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.TileVertical);
+        }
+
+        private void cascadeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.Cascade);
         }
     }
 }
