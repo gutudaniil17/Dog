@@ -18,6 +18,9 @@ namespace Dog
         public FormMain(bool hide = true)
         {
             InitializeComponent();
+            BreedComboBox.SelectedIndex = 0;
+            EyeColorComboBox.SelectedIndex = 0;
+            SexComboBox.SelectedIndex = 0;
             this.AutoScroll = true;
             if (hide)
             {
@@ -87,6 +90,7 @@ namespace Dog
         }
 
         private bool SaveObject()
+
         {
             string jsonString = JsonConvert.SerializeObject(dog);
             if (File.Exists("data.json"))
@@ -221,7 +225,7 @@ namespace Dog
 
                 foreach (FormMain f in this.MdiParent.MdiChildren)
                 {
-                    if (f.filePath == filePath)
+                    if (f.filePath == filePath && f != this)
                     {
                         MessageBox.Show("This file is already in use", "Error",
                             MessageBoxButtons.OK,
@@ -245,14 +249,17 @@ namespace Dog
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
-                #region Reinit the form with empty fields
-                // TODO: Implement logic
-                #endregion
-                #region Push entity fields to form fields
-                // TODO: Implement logic 
-                #endregion
-
+                
+                NameTextBox.Text = dog.Name;
+                ColorTextBox.Text = dog.Color;
+                OwnerNameTextBox.Text = dog.OwnerName;
+                WeightNumericUpDown.Value = (decimal) dog.Weight;
+                HeightNumericUpDown.Value = (decimal) dog.Height;
+                BreedComboBox.SelectedItem = dog.Breed;
+                EyeColorComboBox.SelectedItem = dog.EyeColor;
+                SexComboBox.SelectedItem = dog.SexType;
+                VaccinatedCheckBox.Checked = dog.IsVaccinated;
+                BirthDatePicker.Value = dog.BirthDate;
             }
         }
 
@@ -267,9 +274,18 @@ namespace Dog
         private void saveToFile()
         {
             Models.Dog entity = new Models.Dog();
-            // TODO: Get form info into the dog entity
-            // TODO: Serialize it into JSON (JsonConvert.SerializeObject)
-            // File.WriteAllText(this.filePath, json);
+            entity.Name = NameTextBox.Text;
+            entity.Color = ColorTextBox.Text;
+            entity.OwnerName = OwnerNameTextBox.Text;
+            dog.Weight = (double) WeightNumericUpDown.Value;
+            dog.Height = (float) HeightNumericUpDown.Value;
+            dog.Breed = (BreedType) BreedComboBox.SelectedItem;
+            dog.EyeColor = (EyeColor) EyeColorComboBox.SelectedItem;
+            dog.SexType = (SexType) SexComboBox.SelectedItem;
+            dog.IsVaccinated = VaccinatedCheckBox.Checked;
+            dog.BirthDate = BirthDatePicker.Value;
+            var json = JsonConvert.SerializeObject(entity);
+            File.WriteAllText(this.filePath, json);
         }
 
         private void saveAs()
@@ -295,8 +311,22 @@ namespace Dog
                                                    MessageBoxIcon.Error);
                         return;
                     }
-                    // TODO: Serialize it into JSON (JsonConvert.SerializeObject)
-                    // File.WriteAllText(this.filePath, josn);
+
+                    this.filePath = filePath;
+                    Models.Dog entity = new Models.Dog();
+                    entity.Name = NameTextBox.Text;
+                    entity.Color = ColorTextBox.Text;
+                    entity.OwnerName = OwnerNameTextBox.Text;
+                    dog.Weight = (double) WeightNumericUpDown.Value;
+                    dog.Height = (float) HeightNumericUpDown.Value;
+                    dog.Breed = (BreedType) BreedComboBox.SelectedItem;
+                    dog.EyeColor = (EyeColor) EyeColorComboBox.SelectedItem;
+                    dog.SexType = (SexType) SexComboBox.SelectedItem;
+                    dog.IsVaccinated = VaccinatedCheckBox.Checked;
+                    dog.BirthDate = BirthDatePicker.Value;
+                    
+                    var json = JsonConvert.SerializeObject(entity);
+                    File.WriteAllText(this.filePath, json);
                 }
             }
         }

@@ -23,3 +23,4 @@ D:\visual\Dog\Dog\obj\Debug\Dog.csproj.CoreCompileInputs.cache
 D:\visual\Dog\Dog\obj\Debug\Dog.csproj.Up2Date
 D:\visual\Dog\Dog\obj\Debug\Dog.exe
 D:\visual\Dog\Dog\obj\Debug\Dog.pdb
+C:\Users\gutu.daniil\RiderProjects\Dog\Dog\obj\Debug\Dog.FormMain.resources
