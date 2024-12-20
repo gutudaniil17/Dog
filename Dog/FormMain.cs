@@ -12,10 +12,15 @@ namespace Dog
     public partial class FormMain : Form
     {
         private Models.Dog dog = new Models.Dog();
+        private string filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\data.json";
 
         public FormMain()
         {
             InitializeComponent();
+            BreedComboBox.SelectedIndex = 0;
+            EyeColorComboBox.SelectedIndex = 0;
+            SexComboBox.SelectedIndex = 0;
+            toolStripStatusLabel1.Text = "Current Path: " + filePath;
         }
 
         private void NameTextBox_Validating(object sender, CancelEventArgs e)
@@ -145,6 +150,262 @@ namespace Dog
             if (result != DialogResult.Yes)
             {
                 e.Cancel = true;
+            }
+        }
+
+        private void windowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var newForm = new FormMain();
+            newForm.Show();
+        }
+
+        private void FormMain_FormClosing_1(object sender, FormClosingEventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure?", "Warning",
+                          MessageBoxButtons.YesNo,
+                          MessageBoxIcon.Warning);
+            if (result != DialogResult.Yes)
+                e.Cancel = true;
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveToFile();
+            MessageBox.Show("File saved", "Info",
+                                 MessageBoxButtons.OK,
+                                 MessageBoxIcon.Information);
+        }
+
+        private void saveToFile()
+        {
+            Models.Dog entity = new Models.Dog();
+            entity.Name = NameTextBox.Text;
+            entity.Color = ColorTextBox.Text;
+            entity.OwnerName = OwnerNameTextBox.Text;
+            dog.Weight = (double)WeightNumericUpDown.Value;
+            dog.Height = (float)HeightNumericUpDown.Value;
+            dog.Breed = (BreedType)BreedComboBox.SelectedItem;
+            dog.EyeColor = (EyeColor)EyeColorComboBox.SelectedItem;
+            dog.SexType = (SexType)SexComboBox.SelectedItem;
+            dog.IsVaccinated = VaccinatedCheckBox.Checked;
+            dog.BirthDate = BirthDatePicker.Value;
+            var json = JsonConvert.SerializeObject(entity);
+            File.WriteAllText(this.filePath, json);
+        }
+
+        private void saveAs()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Choose File",
+                Filter = "JSON File (*.json)|*.json",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                CheckFileExists = false,
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+                this.filePath = filePath;
+                Models.Dog entity = new Models.Dog();
+                entity.Name = NameTextBox.Text;
+                entity.Color = ColorTextBox.Text;
+                entity.OwnerName = OwnerNameTextBox.Text;
+                dog.Weight = (double)WeightNumericUpDown.Value;
+                dog.Height = (float)HeightNumericUpDown.Value;
+                dog.Breed = (BreedType)BreedComboBox.SelectedItem;
+                dog.EyeColor = (EyeColor)EyeColorComboBox.SelectedItem;
+                dog.SexType = (SexType)SexComboBox.SelectedItem;
+                dog.IsVaccinated = VaccinatedCheckBox.Checked;
+                dog.BirthDate = BirthDatePicker.Value;
+
+                var json = JsonConvert.SerializeObject(entity);
+                File.WriteAllText(this.filePath, json);
+            }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            saveToFile();
+            MessageBox.Show("File saved", "Info",
+                                 MessageBoxButtons.OK,
+                                 MessageBoxIcon.Information);
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveAs();
+            MessageBox.Show("File saved", "Info",
+                                 MessageBoxButtons.OK,
+                                 MessageBoxIcon.Information);
+
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            saveAs();
+            MessageBox.Show("File saved", "Info",
+                                 MessageBoxButtons.OK,
+                                 MessageBoxIcon.Information);
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fileToolStripMenuItem.DropDown.Close();
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Choose File",
+                Filter = "JSON File (*.json)|*.json",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+
+                if (!File.Exists(filePath))
+                {
+                    MessageBox.Show("File does not exist", "Warning",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string jsonContent = File.ReadAllText(filePath);
+                var entity = JsonConvert.DeserializeObject<Models.Dog>(jsonContent);
+                if (entity == null)
+                {
+                    MessageBox.Show("File is empty", "Warning",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                NameTextBox.Text = dog.Name;
+                ColorTextBox.Text = dog.Color;
+                OwnerNameTextBox.Text = dog.OwnerName;
+                WeightNumericUpDown.Value = (decimal)dog.Weight;
+                HeightNumericUpDown.Value = (decimal)dog.Height;
+                BreedComboBox.SelectedItem = dog.Breed;
+                EyeColorComboBox.SelectedItem = dog.EyeColor;
+                SexComboBox.SelectedItem = dog.SexType;
+                VaccinatedCheckBox.Checked = dog.IsVaccinated;
+                this.filePath = filePath;
+                toolStripStatusLabel1.Text = "File Path: " + filePath;
+
+                try
+                {
+                    BirthDatePicker.Value = dog.BirthDate;
+                }
+                catch (Exception ex)
+                {
+                    BirthDatePicker.Value = BirthDatePicker.MinDate;
+                }
+            }
+        }
+
+        private void inNewWindowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            fileToolStripMenuItem.DropDown.Close();
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Choose File",
+                Filter = "JSON File (*.json)|*.json",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+
+                if (!File.Exists(filePath))
+                {
+                    MessageBox.Show("File does not exist", "Warning",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string jsonContent = File.ReadAllText(filePath);
+                var entity = JsonConvert.DeserializeObject<Models.Dog>(jsonContent);
+                if (entity == null)
+                {
+                    MessageBox.Show("File is empty", "Warning",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var newForm = new FormMain();
+                newForm.NameTextBox.Text = dog.Name;
+                newForm.ColorTextBox.Text = dog.Color;
+                newForm.OwnerNameTextBox.Text = dog.OwnerName;
+                newForm.WeightNumericUpDown.Value = (decimal)dog.Weight;
+                newForm.HeightNumericUpDown.Value = (decimal)dog.Height;
+                newForm.BreedComboBox.SelectedItem = dog.Breed;
+                newForm.EyeColorComboBox.SelectedItem = dog.EyeColor;
+                newForm.SexComboBox.SelectedItem = dog.SexType;
+                newForm.VaccinatedCheckBox.Checked = dog.IsVaccinated;
+                newForm.filePath = filePath;
+                newForm.toolStripStatusLabel1.Text = "File Path: " + filePath;
+
+                try
+                {
+                    newForm.BirthDatePicker.Value = dog.BirthDate;
+                }
+                catch (Exception ex)
+                {
+                    newForm.BirthDatePicker.Value = BirthDatePicker.MinDate;
+                }
+                newForm.Show();
+            }
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Choose File",
+                Filter = "JSON File (*.json)|*.json",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog.FileName;
+
+                if (!File.Exists(filePath))
+                {
+                    MessageBox.Show("File does not exist", "Warning",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string jsonContent = File.ReadAllText(filePath);
+                var entity = JsonConvert.DeserializeObject<Models.Dog>(jsonContent);
+                if (entity == null)
+                {
+                    MessageBox.Show("File is empty", "Warning",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                NameTextBox.Text = dog.Name;
+                ColorTextBox.Text = dog.Color;
+                OwnerNameTextBox.Text = dog.OwnerName;
+                WeightNumericUpDown.Value = (decimal)dog.Weight;
+                HeightNumericUpDown.Value = (decimal)dog.Height;
+                BreedComboBox.SelectedItem = dog.Breed;
+                EyeColorComboBox.SelectedItem = dog.EyeColor;
+                SexComboBox.SelectedItem = dog.SexType;
+                VaccinatedCheckBox.Checked = dog.IsVaccinated;
+                this.filePath = filePath;
+                toolStripStatusLabel1.Text = "File Path: " + filePath;
+
+                try
+                {
+                    BirthDatePicker.Value = dog.BirthDate;
+                }
+                catch (Exception ex)
+                {
+                    BirthDatePicker.Value = BirthDatePicker.MinDate;
+                }
             }
         }
     }

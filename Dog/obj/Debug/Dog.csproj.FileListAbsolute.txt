@@ -10,3 +10,16 @@ C:\Users\gutu.daniil\RiderProjects\Dog\Dog\bin\Debug\Newtonsoft.Json.xml
 C:\Users\gutu.daniil\RiderProjects\Dog\Dog\obj\Debug\Dog.csproj.Up2Date
 C:\Users\gutu.daniil\RiderProjects\Dog\Dog\obj\Debug\Dog.exe
 C:\Users\gutu.daniil\RiderProjects\Dog\Dog\obj\Debug\Dog.pdb
+D:\visual\Dog\Dog\bin\Debug\Dog.exe.config
+D:\visual\Dog\Dog\bin\Debug\Dog.exe
+D:\visual\Dog\Dog\bin\Debug\Dog.pdb
+D:\visual\Dog\Dog\bin\Debug\Newtonsoft.Json.dll
+D:\visual\Dog\Dog\bin\Debug\Newtonsoft.Json.xml
+D:\visual\Dog\Dog\obj\Debug\Dog.csproj.AssemblyReference.cache
+D:\visual\Dog\Dog\obj\Debug\Dog.Properties.Resources.resources
+D:\visual\Dog\Dog\obj\Debug\Dog.csproj.GenerateResource.cache
+D:\visual\Dog\Dog\obj\Debug\Dog.csproj.CoreCompileInputs.cache
+D:\visual\Dog\Dog\obj\Debug\Dog.csproj.Up2Date
+D:\visual\Dog\Dog\obj\Debug\Dog.exe
+D:\visual\Dog\Dog\obj\Debug\Dog.pdb
+D:\visual\Dog\Dog\obj\Debug\Dog.FormMain.resources
